@@ -1,0 +1,13 @@
+{
+  "domain": "device_security",
+  "name": "Device Security",
+  "codeowners": ["@obsonis"],
+  "config_flow": true,
+  "dependencies": ["network"],
+  "documentation": "https://github.com/obsonis/ha-device-security",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/obsonis/ha-device-security/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

@@ -1,0 +1,48 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to the platform",
+        "description": "Press Connect Home Assistant on your account page and paste the values it shows. Home Assistant sends its device list to the platform; The platform never connects to Home Assistant.",
+        "data": {
+          "url": "API URL",
+          "tenant": "Tenant",
+          "api_token": "API token"
+        },
+        "data_description": {
+          "url": "The API URL shown on your account page.",
+          "tenant": "The tenant shown on your account page.",
+          "api_token": "The token created by Connect Home Assistant on your account page."
+        }
+      },
+      "reauth_confirm": {
+        "title": "API token refused",
+        "description": "The platform no longer accepts the API token. Paste a new one.",
+        "data": {
+          "api_token": "API token"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "The platform refused the token, or the token lacks the home-assistant permission.",
+      "cannot_connect": "Could not reach the platform at that address.",
+      "unknown": "Unexpected error."
+    },
+    "abort": {
+      "already_configured": "This tenant is already set up.",
+      "reauth_successful": "The new token works."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "devices_critical": { "name": "Devices with critical vulnerabilities" },
+      "devices_high": { "name": "Devices with high vulnerabilities" },
+      "devices_at_risk": { "name": "Devices at risk" },
+      "vulnerabilities_critical": { "name": "Critical vulnerabilities" },
+      "vulnerabilities_high": { "name": "High vulnerabilities" },
+      "vulnerabilities_total": { "name": "Vulnerabilities" },
+      "linked_devices": { "name": "Linked devices" },
+      "last_sync": { "name": "Last device sync" }
+    }
+  }
+}
