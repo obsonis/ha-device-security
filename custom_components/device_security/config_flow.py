@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from collections.abc import Mapping
 import logging
+from collections.abc import Mapping
 from typing import Any
 
 import voluptuous as vol
-
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
 from homeassistant.const import CONF_API_TOKEN, CONF_URL
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
@@ -17,7 +16,11 @@ from homeassistant.helpers.selector import (
     TextSelectorType,
 )
 
-from .api import DeviceSecurityApiClient, DeviceSecurityAuthError, DeviceSecurityConnectionError
+from .api import (
+    DeviceSecurityApiClient,
+    DeviceSecurityAuthError,
+    DeviceSecurityConnectionError,
+)
 from .const import CONF_TENANT, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
@@ -62,7 +65,7 @@ class DeviceSecurityConfigFlow(ConfigFlow, domain=DOMAIN):
             return {"base": "invalid_auth"}
         except DeviceSecurityConnectionError:
             return {"base": "cannot_connect"}
-        except Exception:  # noqa: BLE001
+        except Exception:
             _LOGGER.exception("Unexpected error validating platform credentials")
             return {"base": "unknown"}
         return {}
@@ -88,7 +91,8 @@ class DeviceSecurityConfigFlow(ConfigFlow, domain=DOMAIN):
             errors = await self._async_validate(user_input)
             if not errors:
                 return self.async_create_entry(
-                    title=f"Device Security ({user_input[CONF_TENANT]})", data=user_input
+                    title=f"Device Security ({user_input[CONF_TENANT]})",
+                    data=user_input,
                 )
 
         return self.async_show_form(

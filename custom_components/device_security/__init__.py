@@ -38,7 +38,9 @@ class DeviceSecurityData:
 type DeviceSecurityConfigEntry = ConfigEntry[DeviceSecurityData]
 
 
-async def async_setup_entry(hass: HomeAssistant, entry: DeviceSecurityConfigEntry) -> bool:
+async def async_setup_entry(
+    hass: HomeAssistant, entry: DeviceSecurityConfigEntry
+) -> bool:
     """Set up Device Security from a config entry."""
     client = DeviceSecurityApiClient(
         async_get_clientsession(hass),
@@ -68,7 +70,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: DeviceSecurityConfigEntr
         hass.bus.async_listen(dr.EVENT_DEVICE_REGISTRY_UPDATED, _registry_updated)
     )
     entry.async_on_unload(
-        async_track_time_interval(hass, coordinator.async_sync_registry, REGISTRY_INTERVAL)
+        async_track_time_interval(
+            hass, coordinator.async_sync_registry, REGISTRY_INTERVAL
+        )
     )
 
     # First post once every integration has registered its devices.
@@ -84,6 +88,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: DeviceSecurityConfigEntr
     return True
 
 
-async def async_unload_entry(hass: HomeAssistant, entry: DeviceSecurityConfigEntry) -> bool:
+async def async_unload_entry(
+    hass: HomeAssistant, entry: DeviceSecurityConfigEntry
+) -> bool:
     """Unload a config entry."""
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)

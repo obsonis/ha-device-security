@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from datetime import datetime
 import logging
+from datetime import datetime
 from typing import Any
 
 from homeassistant.config_entries import ConfigEntry
@@ -63,7 +63,9 @@ class DeviceSecurityCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             return
         except DeviceSecurityError as err:
             self.last_registry_error = str(err)
-            _LOGGER.warning("Could not send the device registry to the platform: %s", err)
+            _LOGGER.warning(
+                "Could not send the device registry to the platform: %s", err
+            )
             return
 
         self.last_registry_sync = dt_util.utcnow()
