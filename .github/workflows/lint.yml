@@ -1,0 +1,52 @@
+name: Lint Python with Ruff
+
+on:
+  # push, not pull_request. A check attached to the commit is the only thing
+  # that survives a stacked PR's base moving underneath it.
+  #
+  # When the branch a stacked PR is based on is merged, GitHub silently
+  # repoints the PR at main and fires NO pull_request event. Not
+  # 'synchronize', and not 'edited' either: 'edited' covers a person changing
+  # the base by hand, not the automatic retarget. So a stacked PR sat with no
+  # check at all and could not be merged until someone pushed an empty commit
+  # to it.
+  #
+  # Every PR head commit got there by a push, so it always has a result, and
+  # that result stays valid however the base moves afterwards.
+  push:
+    branches-ignore: ["main", "master"]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # The diff below resolves origin/<default branch>, which a shallow
+          # clone of a feature branch does not carry.
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install Ruff
+        run: pip install ruff==0.16.9
+
+      - name: Run Ruff on changed files
+        run: |
+          # Compared against the default branch rather than a PR base. For a
+          # stacked branch that is a superset of its own diff, so it lints a
+          # few files its parent PR already covered. Harmless, and it removes
+          # any dependency on PR state.
+          BASE="origin/${{ github.event.repository.default_branch }}"
+          FILES=$(git diff --name-only --diff-filter=d "$BASE"...HEAD | grep -E '\.py$' | tr '\n' ' ')
+          if [ -n "$FILES" ]; then
+            ruff check $FILES
+            ruff format --check $FILES
+          else
+            echo "No Python files changed"
+          fi
