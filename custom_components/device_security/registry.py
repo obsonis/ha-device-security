@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from collections import defaultdict
 import logging
+from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
@@ -12,7 +12,11 @@ from homeassistant.const import __version__ as HA_VERSION
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import (
     device_registry as dr,
+)
+from homeassistant.helpers import (
     entity_registry as er,
+)
+from homeassistant.helpers import (
     instance_id,
 )
 
@@ -112,7 +116,7 @@ async def async_host_addresses(hass: HomeAssistant) -> dict[str, list[str]]:
 
     try:
         adapters = await network.async_get_adapters(hass)
-    except Exception:  # noqa: BLE001 - host addresses are optional
+    except Exception:  # host addresses are optional
         _LOGGER.debug("Could not read network adapters", exc_info=True)
         return {"mac_addresses": macs, "ip_addresses": ips}
 

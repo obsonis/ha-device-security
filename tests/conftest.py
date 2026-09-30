@@ -5,7 +5,6 @@ from __future__ import annotations
 from typing import Any
 
 import pytest
-
 from homeassistant.const import CONF_API_TOKEN, CONF_URL
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
@@ -20,7 +19,13 @@ SUMMARY: dict[str, Any] = {
         "devices_total": 24,
         "devices_at_risk": 3,
         "devices_by_highest": {"critical": 1, "high": 1, "medium": 1, "low": 0},
-        "vulnerabilities": {"critical": 2, "high": 4, "medium": 5, "low": 1, "total": 12},
+        "vulnerabilities": {
+            "critical": 2,
+            "high": 4,
+            "medium": 5,
+            "low": 1,
+            "total": 12,
+        },
         "home_assistant": {
             "linked_devices": 18,
             "last_sync_at": "2026-09-25T15:00:00+00:00",
