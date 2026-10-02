@@ -42,7 +42,7 @@ def _add_zigbee_setup(hass: HomeAssistant) -> tuple[str, str, str]:
         manufacturer="Signify Netherlands B.V.",
         model="Hue white lamp",
         sw_version="1.104.2",
-        via_device=("zha", "coordinator"),
+        via_device_id=coordinator.id,
     )
     er.async_get(hass).async_get_or_create(
         "light", "zha", "bulb-light", config_entry=other, device_id=bulb.id
