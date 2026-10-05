@@ -69,3 +69,17 @@ async def test_user_flow_cannot_connect(hass: HomeAssistant, aioclient_mock) -> 
 
     assert result["type"] is FlowResultType.FORM
     assert result["errors"] == {"base": "cannot_connect"}
+
+
+async def test_user_flow_rejects_http_url(hass: HomeAssistant, aioclient_mock) -> None:
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        {**USER_INPUT, CONF_URL: "http://api.example.test"},
+    )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["errors"] == {CONF_URL: "url_not_https"}
+    assert aioclient_mock.call_count == 0
