@@ -10,7 +10,7 @@
           "api_token": "API token"
         },
         "data_description": {
-          "url": "The API URL shown on your account page.",
+          "url": "The API URL shown on your account page. It must start with https://.",
           "tenant": "The tenant shown on your account page.",
           "api_token": "The token created by Connect Home Assistant on your account page."
         }
@@ -26,6 +26,7 @@
     "error": {
       "invalid_auth": "The platform refused the token, or the token lacks the home-assistant permission.",
       "cannot_connect": "Could not reach the platform at that address.",
+      "url_not_https": "The API URL must start with https://.",
       "unknown": "Unexpected error."
     },
     "abort": {

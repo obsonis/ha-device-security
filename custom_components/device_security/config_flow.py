@@ -83,12 +83,17 @@ class DeviceSecurityConfigFlow(ConfigFlow, domain=DOMAIN):
                 CONF_TENANT: user_input[CONF_TENANT].strip().lower(),
                 CONF_API_TOKEN: user_input[CONF_API_TOKEN].strip(),
             }
-            await self.async_set_unique_id(
-                f"{user_input[CONF_URL]}|{user_input[CONF_TENANT]}".lower()
-            )
-            self._abort_if_unique_id_configured()
+            # The token goes in a header on every request, so never accept a
+            # URL that would send it unencrypted.
+            if not user_input[CONF_URL].lower().startswith("https://"):
+                errors = {CONF_URL: "url_not_https"}
+            else:
+                await self.async_set_unique_id(
+                    f"{user_input[CONF_URL]}|{user_input[CONF_TENANT]}".lower()
+                )
+                self._abort_if_unique_id_configured()
 
-            errors = await self._async_validate(user_input)
+                errors = await self._async_validate(user_input)
             if not errors:
                 return self.async_create_entry(
                     title=f"Device Security ({user_input[CONF_TENANT]})",
